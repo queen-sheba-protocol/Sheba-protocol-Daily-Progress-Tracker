@@ -18,14 +18,13 @@ Central tracker for daily and weekly progress across the **Sheba Protocol** seni
 ```
 Sheba-protocol-Daily-Progress-Tracker/
 ├── README.md
-├── progress/
-│   ├── Awel-Abduljelil/
-│   │     ├── 2026-09-01.md
-│   │     ├── 2026-09-02.md
-│   │     └── ...
-│   ├── Sirajuddin-Seid/
-│   ├── Gelila-Fassil/
-│   └── ... (one folder per member)
+├── Awel-Abduljelil/
+│     ├── 2026-09-01.md
+│     ├── 2026-09-02.md
+│     └── ...
+├── Sirajuddin-Seid/
+├── Gelila-Fassil/
+└── ... (one folder per member)
 ├── weekly-summaries/
 │   └── 2026-W36.md
 ├── leaderboard-history/
@@ -39,7 +38,7 @@ Sheba-protocol-Daily-Progress-Tracker/
 
 ## 🧾 Daily Log Format
 
-Create one file per day inside your own folder: `progress/<your-name>/YYYY-MM-DD.md`
+Create one file per day inside your own folder: `Sheba-protocol-Daily-Progress-Tracker/<your-name>/YYYY-MM-DD.md`
 
 ```markdown
 # YYYY-MM-DD — <Your Name>
@@ -105,13 +104,13 @@ You can also trigger it manually anytime:
 - Log daily in your own folder only — don't edit someone else's log
 - Use your GitHub username (or agreed real name) as your folder name, consistently
 - Keep entries short and honest — a real blocker is more useful than a padded update
-- Weekly summaries are a shared responsibility — whoever leads that week's check-in fills it in
+- Weekly summaries are a shared responsibility — whoever leads that week's check-in fills it in i.e team tsega assign for a week meeting control
 
 ---
 
 ## 👥 Team
 
-Part of the **Queen Sheba Protocol** — a 13-member senior security team pursuing individual roadmaps in web application security, network security, reverse engineering, and cloud security, with shared tracking across four repos:
+Part of the **Sheba Protocol** — a 12-member senior security team pursuing individual roadmaps in web application security, network security, reverse engineering, and Active directory, with shared tracking across four repos:
 
 | Repo | Purpose |
 |---|---|
@@ -125,5 +124,5 @@ Part of the **Queen Sheba Protocol** — a 13-member senior security team pursui
 ## 🔗 Quick Links
 
 - [Weekly Leaderboard Issues](../../issues?q=is%3Aissue+label%3Aweekly-report)
-- [All Progress Logs](./progress)
+- [All Progress Logs](./)
 - [Weekly Summaries](./weekly-summaries)
