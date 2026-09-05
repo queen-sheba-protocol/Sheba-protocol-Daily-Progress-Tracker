@@ -1,1 +1,60 @@
+#!/usr/bin/env bash
+#
+# weekly-leaderboard.sh
+# Counts commits per team member across ALL repos in the
+# queen-sheba-protocol GitHub org, for the last 7 days.
+#
+# Requirements: GitHub CLI (`gh`) installed and authenticated (`gh auth login`)
+#
+# Usage:
+#   ./weekly-leaderboard.sh
+#   ./weekly-leaderboard.sh 2026-08-30 2026-09-05   (custom date range)
 
+set -euo pipefail
+
+ORG="queen-sheba-protocol"
+
+# --- Date range setup ---
+if [ $# -eq 2 ]; then
+  SINCE="$1T00:00:00Z"
+  UNTIL="$2T23:59:59Z"
+else
+  SINCE=$(date -u -d '7 days ago' +%Y-%m-%dT00:00:00Z)
+  UNTIL=$(date -u +%Y-%m-%dT23:59:59Z)
+fi
+
+echo "Fetching commits for org: $ORG"
+echo "Date range: $SINCE  →  $UNTIL"
+echo ""
+
+# --- Fetch commits org-wide via GitHub's search API ---
+gh api search/commits \
+  -f q="org:${ORG} committer-date:${SINCE:0:10}..${UNTIL:0:10}" \
+  --paginate \
+  -q '.items[].commit.author.name' \
+  | sort | uniq -c | sort -rn > /tmp/weekly_counts.txt
+
+# --- Build the leaderboard table ---
+OUTPUT="leaderboard_$(date -u +%Y-%m-%d).md"
+
+{
+  echo "## Weekly Leaderboard ($SINCE to $UNTIL)"
+  echo ""
+  echo "| Rank | Member | Commits | 3+ this week? |"
+  echo "|------|--------|---------|----------------|"
+  awk '{
+    $1_count=$1;
+    $0=$0;
+    count=$1;
+    $1="";
+    name=$0;
+    sub(/^ +/, "", name);
+    rank++;
+    flag = (count >= 3) ? "✅" : "❌";
+    printf "| %d | %s | %d | %s |\n", rank, name, count, flag;
+  }' /tmp/weekly_counts.txt
+} > "$OUTPUT"
+
+echo "Leaderboard written to: $OUTPUT"
+echo ""
+cat "$OUTPUT"
