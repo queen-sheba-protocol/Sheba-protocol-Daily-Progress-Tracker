@@ -18,13 +18,14 @@ Central tracker for daily and weekly progress across the **Sheba Protocol** seni
 ```
 Sheba-protocol-Daily-Progress-Tracker/
 ├── README.md
-├── Awel-Abduljelil/
-│     ├── 2026-09-01.md
-│     ├── 2026-09-02.md
-│     └── ...
-├── Sirajuddin-Seid/
-├── Gelila-Fassil/
-└── ... (one folder per member)
+├── progress/
+│   ├── awel/
+│   │   ├── 2026-09-01.md
+│   │   ├── 2026-09-02.md
+│   │   └── ...
+│   ├── sirajudin/
+│   ├── tsega/
+│   └── ... (one folder per member)
 ├── weekly-summaries/
 │   └── 2026-W36.md
 ├── leaderboard-history/
