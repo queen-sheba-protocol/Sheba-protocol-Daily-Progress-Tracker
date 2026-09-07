@@ -1,10 +1,10 @@
-# 👤 `<Your Name>` — Progress Log
+# 👤 `Hana Tamirat` — Progress Log
 
 ![Track](https://img.shields.io/badge/Track-Web%20AppSec-2563EB?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Active-22C55E?style=flat-square)
 ![Streak](https://img.shields.io/badge/Current%20Streak-0%20days-F59E0B?style=flat-square)
 
-> Personal daily-log folder for **`<Your Name>`** — part of the **Queen Sheba Protocol** security team.
+> Personal daily-log folder for **`Hana Tamirat`** — part of the **Queen Sheba Protocol** security team.
 
 ---
 
