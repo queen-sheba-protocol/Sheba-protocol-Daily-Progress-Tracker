@@ -1,5 +1,7 @@
 # 👤 `<Your Name>` — Progress Log
 
+![Track](https://img.shields.io/badge/Track-Web%20AppSec-2563EB?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Active-22C55E?style=flat-square)
 
 
 > Personal daily-log folder for **`<Your Name>`** — part of the **Queen Sheba Protocol** security team.
@@ -25,16 +27,6 @@
 *(Update manually each week, or leave blank — the org-wide leaderboard tracks commits automatically.)*
 
 ---
-
-## 📅 Log Index
-
-| Date | Summary | Blockers? |
-|---|---|---|
-| `2026-09-01` | *e.g. Solved 2 SQLi labs* | No |
-| `2026-09-02` | *e.g. Started Burp Intruder practice* | Yes |
-
-*(Add a row here each time you add a new daily log file — makes your folder scannable without opening every file.)*
-
 ---
 
 ## 📝 Today's Log Template
