@@ -4,14 +4,14 @@
 ![Status](https://img.shields.io/badge/Status-Active-22C55E?style=flat-square)
 
 
-> Personal daily-log folder for **`<Your Name>`** — part of the **Queen Sheba Protocol** security team.
+> Personal daily-log folder for **`Tihitina Wondimagegnehu`** — part of the **Queen Sheba Protocol** security team.
 
 ---
 
 ## 🎯 Roadmap Track
 
-**Track:** Web AppSec `|` Network Security `|` Reverse Engineering `|` Cloud Security
-**Focus this month:** *(e.g. OWASP Top 10 — Burp Suite fundamentals)*
+**Track:** Reverse Engineering 
+**Focus this month:** *Computer Architecture, Anti Reverse Engineering *
 
 ---
 
