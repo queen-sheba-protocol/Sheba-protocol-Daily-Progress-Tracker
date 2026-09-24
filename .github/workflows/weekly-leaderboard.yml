@@ -2,8 +2,7 @@ name: Weekly Progress Report
 
 on:
   schedule:
-    # Every Sunday at 08:00 UTC
-    - cron: "0 8 * * 0"
+    - cron: "0 8 * * 0"   # Every Sunday at 08:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -81,8 +80,11 @@ jobs:
               --since="${SINCE} 00:00:00 UTC" \
               --until="${UNTIL} 23:59:59 UTC" \
               --format='%aN' |
-              sort | uniq -c | sort -rn |
+              sort |
+              uniq -c |
+              sort -rn |
               awk '{ count=$1; $1=""; sub(/^ +/, ""); printf "| %s | %d |\n", $0, count }'
+
           } > "$REPORT"
 
           echo "Created ${REPORT}"
@@ -95,6 +97,7 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add weekly-summaries/
 
           if git diff --cached --quiet; then
