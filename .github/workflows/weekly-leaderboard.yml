@@ -57,13 +57,14 @@ jobs:
               done < <(
                 find progress -type f -name '*.md' -print 2>/dev/null |
                 sort |
-                while IFS= read -r file; do
-                  day="$(basename "$file" .md)"
-                  if [[ "$day" =~ $DATE_RE ]] &&
-                     [[ "$day" >= "$SINCE" && "$day" <= "$UNTIL" ]]; then
-                    printf '%s\n' "$file"
-                  fi
-                done
+              while IFS= read -r file; do
+                day="$(basename "$file" .md)"
+              
+                if [[ "$day" =~ $DATE_RE ]] &&
+                   ! [[ "$day" < "$SINCE" || "$day" > "$UNTIL" ]]; then
+                  printf '%s\n' "$file"
+                fi
+              done                
               )
             fi
 
