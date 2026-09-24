@@ -10,7 +10,7 @@
 #   ./weekly-leaderboard.sh
 #   ./weekly-leaderboard.sh 2026-08-30 2026-09-05   (custom date range)
 
-set -euo pipefail
+set -euo pipefail 
 
 ORG="queen-sheba-protocol"
 
