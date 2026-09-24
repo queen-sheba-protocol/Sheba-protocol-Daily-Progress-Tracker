@@ -29,6 +29,7 @@ jobs:
           UNTIL="$(date -u +%Y-%m-%d)"
           WEEK="$(date -u +%G-W%V)"
           REPORT="weekly-summaries/${WEEK}.md"
+          DATE_RE='^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
 
           {
             echo "# Weekly Progress Report — ${WEEK}"
@@ -58,7 +59,7 @@ jobs:
                 sort |
                 while IFS= read -r file; do
                   day="$(basename "$file" .md)"
-                  if [[ "$day" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] &&
+                  if [[ "$day" =~ $DATE_RE ]] &&
                      [[ "$day" >= "$SINCE" && "$day" <= "$UNTIL" ]]; then
                     printf '%s\n' "$file"
                   fi
