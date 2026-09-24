@@ -1,60 +1,105 @@
-#!/usr/bin/env bash
-#
-# weekly-leaderboard.sh
-# Counts commits per team member across ALL repos in the
-# queen-sheba-protocol GitHub org, for the last 7 days.
-#
-# Requirements: GitHub CLI (`gh`) installed and authenticated (`gh auth login`)
-#
-# Usage:
-#   ./weekly-leaderboard.sh
-#   ./weekly-leaderboard.sh 2026-08-30 2026-09-05   (custom date range)
+name: Weekly Progress Report
 
-set -euo pipefail 
+on:
+  schedule:
+    # Every Sunday at 08:00 UTC
+    - cron: "0 8 * * 0"
+  workflow_dispatch:
 
-ORG="queen-sheba-protocol"
+permissions:
+  contents: write
 
-# --- Date range setup ---
-if [ $# -eq 2 ]; then
-  SINCE="$1T00:00:00Z"
-  UNTIL="$2T23:59:59Z"
-else
-  SINCE=$(date -u -d '7 days ago' +%Y-%m-%dT00:00:00Z)
-  UNTIL=$(date -u +%Y-%m-%dT23:59:59Z)
-fi
+jobs:
+  weekly-report:
+    runs-on: ubuntu-latest
 
-echo "Fetching commits for org: $ORG"
-echo "Date range: $SINCE  →  $UNTIL"
-echo ""
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-# --- Fetch commits org-wide via GitHub's search API ---
-gh api search/commits \
-  -f q="org:${ORG} committer-date:${SINCE:0:10}..${UNTIL:0:10}" \
-  --paginate \
-  -q '.items[].commit.author.name' \
-  | sort | uniq -c | sort -rn > /tmp/weekly_counts.txt
+      - name: Generate weekly report
+        shell: bash
+        run: |
+          set -euo pipefail
 
-# --- Build the leaderboard table ---
-OUTPUT="leaderboard_$(date -u +%Y-%m-%d).md"
+          mkdir -p weekly-summaries
 
-{
-  echo "## Weekly Leaderboard ($SINCE to $UNTIL)"
-  echo ""
-  echo "| Rank | Member | Commits | 3+ this week? |"
-  echo "|------|--------|---------|----------------|"
-  awk '{
-    $1_count=$1;
-    $0=$0;
-    count=$1;
-    $1="";
-    name=$0;
-    sub(/^ +/, "", name);
-    rank++;
-    flag = (count >= 3) ? "✅" : "❌";
-    printf "| %d | %s | %d | %s |\n", rank, name, count, flag;
-  }' /tmp/weekly_counts.txt
-} > "$OUTPUT"
+          SINCE="$(date -u -d '6 days ago' +%Y-%m-%d)"
+          UNTIL="$(date -u +%Y-%m-%d)"
+          WEEK="$(date -u +%G-W%V)"
+          REPORT="weekly-summaries/${WEEK}.md"
 
-echo "Leaderboard written to: $OUTPUT"
-echo ""
-cat "$OUTPUT"
+          {
+            echo "# Weekly Progress Report — ${WEEK}"
+            echo
+            echo "**Period:** ${SINCE} to ${UNTIL} UTC"
+            echo
+            echo "## Daily Progress"
+            echo
+
+            found_logs=false
+
+            if [ -d progress ]; then
+              while IFS= read -r file; do
+                [ -n "$file" ] || continue
+                found_logs=true
+                member="$(dirname "$file" | sed 's#^progress/##')"
+                day="$(basename "$file" .md)"
+
+                echo "### ${member} — ${day}"
+                echo
+                sed '1{/^# /d;}' "$file"
+                echo
+                echo "---"
+                echo
+              done < <(
+                find progress -type f -name '*.md' -print 2>/dev/null |
+                sort |
+                while IFS= read -r file; do
+                  day="$(basename "$file" .md)"
+                  if [[ "$day" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] &&
+                     [[ "$day" >= "$SINCE" && "$day" <= "$UNTIL" ]]; then
+                    printf '%s\n' "$file"
+                  fi
+                done
+              )
+            fi
+
+            if [ "$found_logs" = false ]; then
+              echo "No daily progress logs were found for this period."
+              echo
+            fi
+
+            echo "## Commits in This Repository"
+            echo
+            echo "| Member | Commits |"
+            echo "|--------|---------|"
+
+            git log \
+              --since="${SINCE} 00:00:00 UTC" \
+              --until="${UNTIL} 23:59:59 UTC" \
+              --format='%aN' |
+              sort | uniq -c | sort -rn |
+              awk '{ count=$1; $1=""; sub(/^ +/, ""); printf "| %s | %d |\n", $0, count }'
+          } > "$REPORT"
+
+          echo "Created ${REPORT}"
+          cat "$REPORT"
+
+      - name: Commit report permanently
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add weekly-summaries/
+
+          if git diff --cached --quiet; then
+            echo "No report changes to commit."
+          else
+            git commit -m "Add weekly progress report"
+            git push origin main
+          fi
