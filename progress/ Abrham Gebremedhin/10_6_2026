@@ -1,0 +1,21 @@
+# 2026-10-06 Abrham Gebremedhin
+
+**Track:** AI Penetration Testing
+
+### Today
+- Continued learning AI security and AI penetration testing concepts.
+
+### Learned
+- AI systems need to be tested beyond traditional web security.
+- Understanding how an AI application works is important before testing its attack surface.
+
+### Blockers
+- None
+
+### Next
+- Continue practicing AI/LLM security testing.
+- Study prompt injection, insecure RAG, and other common Ai application risks.
+- Apply what I learn to practical Ai projects.
+
+### Notes
+- Focused on building the foundation for AI penetration testing through both AI engineering and cybersecurity.
