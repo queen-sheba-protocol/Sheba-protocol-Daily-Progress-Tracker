@@ -19,8 +19,8 @@
 
 | Metric | Value |
 |---|---|
-| Logs this week | — |
-| Commits this week | — |
+| Logs this week | 5 |
+| Commits this week | 3 |
 | Longest streak | — |
 | Member since | `YYYY-MM-DD` |
 
